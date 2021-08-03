@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2019.1 (64-bit)
+# SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
+# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+# Start of session at: Tue Aug  3 14:27:40 2021
+# Process ID: 15764
+# Current directory: C:/work/delay/delay.runs/synth_1
+# Command line: vivado.exe -log delay_data.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source delay_data.tcl
+# Log file: C:/work/delay/delay.runs/synth_1/delay_data.vds
+# Journal file: C:/work/delay/delay.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source delay_data.tcl -notrace
