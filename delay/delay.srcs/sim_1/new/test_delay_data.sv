@@ -73,7 +73,7 @@ end
 always begin
    #1 clk = !clk; 
 end
-// в качестве входных данных - счетчик
+// counter signal  as input data 
 always_ff @( posedge clk) begin
     if (s_axis_tready & s_axis_tvalid)
     DATA_IN  <= DATA_IN + 1; 
