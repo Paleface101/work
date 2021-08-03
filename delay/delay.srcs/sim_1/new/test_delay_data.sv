@@ -73,10 +73,10 @@ end
 always begin
    #1 clk = !clk; 
 end
-
+// в качестве входных данных - счетчик
 always_ff @( posedge clk) begin
     if (s_axis_tready & s_axis_tvalid)
-    DATA_IN  <= DATA_IN + 1;
+    DATA_IN  <= DATA_IN + 1; 
     else DATA_IN  <= 0;
 end
 
