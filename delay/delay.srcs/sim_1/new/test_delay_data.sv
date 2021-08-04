@@ -23,6 +23,7 @@
 module test_delay_data(); 
 parameter BUS_WIDTH_IN_BYTES = 2; 
 logic clk;
+logic ARESETN;
 logic enable;
 logic [15:0] delay;
 logic [8*BUS_WIDTH_IN_BYTES-1:0] DATA_IN;
@@ -44,15 +45,57 @@ logic [BUS_WIDTH_IN_BYTES-1:0] m_axis_tstrb;
 
 initial begin
 clk   = 0;
-delay = 200;
+delay = 50;
+enable = 0;
+ARESETN = 1;
+
 
 s_axis_tkeep  = 0;
 s_axis_tstrb  = 0;
-m_axis_tready = 0;
+m_axis_tready = 1;
 s_axis_tvalid = 0;
 
-#50 m_axis_tready = 1;
-#80 s_axis_tvalid = 1;
+
+fork
+//changing enable signal----------------------
+
+begin
+// case (a) changing the valid signal when the counter is running
+
+#30 enable = 1;
+#320 enable = 0;
+
+// case (b) a valid signal disappears at the last counter clock cycle
+#50 enable         = 1;
+#150 enable         = 0;
+
+// case (c) a valid signal disappears at the last counter clock cycle
+#50 enable          = 1;
+#200 enable         = 0;
+end
+
+//changing the valid signal----------------------
+begin
+// case (a) changing the valid signal when the counter is running
+#80  s_axis_tvalid = 1; 
+#20 s_axis_tvalid = 0;
+#20 s_axis_tvalid = 1;
+#30 s_axis_tvalid = 0;
+#60 s_axis_tvalid = 1;
+#100 s_axis_tvalid = 0;
+
+// case (b) a valid signal disappears at the last counter clock cycle
+#50 s_axis_tvalid  = 1;
+#189 s_axis_tvalid  = 0;
+
+// case (c) a valid signal disappears at the last counter clock cycle
+#260 s_axis_tvalid  = 1;
+#400 s_axis_tvalid  = 0;
+end
+join
+//------------------------------------------------
+//--------------------------------------------------------------------
+//--------------------------------------------------------------------
 
 #80 s_axis_tkeep = 1;
 #80 s_axis_tstrb = 3;
@@ -63,11 +106,11 @@ s_axis_tvalid = 0;
 #280 s_axis_tkeep  = 0;
 #290 s_axis_tstrb = 0;
 
-#300 m_axis_tready = 0;
-#310 s_axis_tvalid = 0;
+#700 m_axis_tready = 0;
 
 #320 s_axis_tkeep  = 1;
 #330 s_axis_tstrb = 3;
+
 end
 
 always begin
@@ -82,6 +125,6 @@ end
 
 
 
-delay_data DD (.ACLK(clk),.delay(delay), .s_axis_tdata(DATA_IN),.m_axis_tdata(DATA_OUT),
+delay_data DD (.ACLK(clk), .s_axis_tdata(DATA_IN),.m_axis_tdata(DATA_OUT),
 .*) ;//outputs
 endmodule

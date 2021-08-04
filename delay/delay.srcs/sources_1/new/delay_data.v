@@ -40,8 +40,10 @@ always @(posedge ACLK ) begin
     m_axis_tvalid_int <= s_axis_tvalid;
     s_axis_tready_int <= m_axis_tready;
     
-    if (s_axis_tready & s_axis_tvalid & enable) begin
-         counter          <= counter + 1'b1;
+    if (enable) 
+         counter <= counter + 1'b1;
+         
+     if (s_axis_tready & s_axis_tvalid ) begin
          m_axis_tkeep_int <= s_axis_tkeep;
          m_axis_tstrb_int <= s_axis_tstrb;
     end
