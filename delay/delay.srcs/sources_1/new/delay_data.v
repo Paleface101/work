@@ -1,70 +1,73 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 
-module delay_data #(parameter n = 2 //,//Data bus width in bytes.
+module delay_data #(parameter BUS_WIDTH_IN_BYTES = 2 //,//Data bus width in bytes.
 //w=1, 
 //t=n%w, 
 /*b=n-(t*w)*/)
 (
-input wire ACLK,
+input wire        ACLK,
+input wire        ARESETN,
 input wire [15:0] delay,
-output wire       enable,
+input wire        enable,
 // input axi
-output wire  s_axis_tready,
-input  wire  s_axis_tvalid,
-input  wire [8*n-1:0] s_axis_tdata,
-input  wire [n-1:0] s_axis_tstrb,
-input  wire [n-1:0] s_axis_tkeep,
+output wire                            s_axis_tready,
+input  wire                            s_axis_tvalid,
+input  wire [8*BUS_WIDTH_IN_BYTES-1:0] s_axis_tdata,
+input  wire [BUS_WIDTH_IN_BYTES-1:0]   s_axis_tstrb,
+input  wire [BUS_WIDTH_IN_BYTES-1:0]   s_axis_tkeep,
 
 // output axi
 
-input  wire           m_axis_tready,
-output wire           m_axis_tvalid,
-output wire [8*n-1:0] m_axis_tdata,
-output wire [n-1:0]   m_axis_tstrb,
-output wire [n-1:0]   m_axis_tkeep
+input  wire                            m_axis_tready,
+output wire                            m_axis_tvalid,
+output wire [8*BUS_WIDTH_IN_BYTES-1:0] m_axis_tdata,
+output wire [BUS_WIDTH_IN_BYTES-1:0]   m_axis_tstrb,
+output wire [BUS_WIDTH_IN_BYTES-1:0]   m_axis_tkeep
 
 );
 
- reg [15:0] counter; 
- reg EN;
+  reg [15:0] counter = 0; 
  //internal data
-  reg [8*n-1:0] m_axis_tdata_int;
-  reg [n-1:0]   m_axis_tkeep_int;
-  reg [n-1:0]   m_axis_tstrb_int;
-  reg           m_axis_tvalid_int; 
-  reg           s_axis_tready_int;
+  reg [8*BUS_WIDTH_IN_BYTES-1:0] m_axis_tdata_int  = 0;
+  reg [BUS_WIDTH_IN_BYTES-1:0]   m_axis_tkeep_int  = 0;
+  reg [BUS_WIDTH_IN_BYTES-1:0]   m_axis_tstrb_int  = 0;
+  reg                            m_axis_tvalid_int = 0; 
+  reg                            s_axis_tready_int = 0;
   
 always @(posedge ACLK ) begin
 
-    m_axis_tvalid_int <= s_axis_tvalid ;
+    m_axis_tvalid_int <= s_axis_tvalid;
     s_axis_tready_int <= m_axis_tready;
     
-    if (s_axis_tready & s_axis_tvalid) begin
-        counter <= counter + 1'b1;
-         m_axis_tkeep_int  <= s_axis_tkeep;
-         m_axis_tstrb_int  <= s_axis_tstrb;
-        if (counter >= delay)  
-         EN <= 1'b1;
-        else 
-         EN <= 1'b0;
+    if (s_axis_tready & s_axis_tvalid & enable) begin
+         counter          <= counter + 1'b1;
+         m_axis_tkeep_int <= s_axis_tkeep;
+         m_axis_tstrb_int <= s_axis_tstrb;
     end
-    if (~s_axis_tvalid)
-       counter <= 0;
+    if ( ~enable | ~ARESETN) begin
+       counter            <= 0;
+       m_axis_tvalid_int  <= 0;
+    end
        
-       
-     if (s_axis_tready & s_axis_tvalid & EN) begin
+     if (s_axis_tready & s_axis_tvalid & counter >= delay) 
          m_axis_tdata_int  <= s_axis_tdata;
-
-     end  
+    
+     if (~ARESETN) begin
+       // counter           <= 0;
+        m_axis_tdata_int  <= 0;
+        m_axis_tkeep_int  <= 0;
+        m_axis_tstrb_int  <= 0;
+       //m_axis_tvalid_int <= 0; 
+        s_axis_tready_int <= 0;
+     end
 end
 
 assign m_axis_tdata  = m_axis_tdata_int;
 assign m_axis_tkeep  = m_axis_tkeep_int;
 assign m_axis_tstrb  = m_axis_tstrb_int; 
 assign m_axis_tvalid = m_axis_tvalid_int ;
-//assign m_axis_tready = m_axis_tready_int ;
 assign s_axis_tready = s_axis_tready_int;
-assign enable        = EN;
+
 
 endmodule

@@ -12,14 +12,19 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="1516000001fs"></ZoomEndTime>
-      <Cursor1Time time="1000000000fs"></Cursor1Time>
+      <ZoomEndTime time="3790000001fs"></ZoomEndTime>
+      <Cursor1Time time="530000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="213"></NameColumnWidth>
       <ValueColumnWidth column_width="85"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="15" />
+   <WVObjectSize size="14" />
+   <wave_markers>
+      <marker time="530000000" label="" />
+      <marker time="1341000000" label="" />
+      <marker time="131000000" label="" />
+   </wave_markers>
    <wvobject fp_name="/test_delay_data/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -27,10 +32,6 @@
    <wvobject fp_name="/test_delay_data/enable" type="logic">
       <obj_property name="ElementShortName">enable</obj_property>
       <obj_property name="ObjectShortName">enable</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_delay_data/DD/EN" type="logic">
-      <obj_property name="ElementShortName">EN</obj_property>
-      <obj_property name="ObjectShortName">EN</obj_property>
    </wvobject>
    <wvobject fp_name="/test_delay_data/DD/counter" type="array">
       <obj_property name="ElementShortName">counter[15:0]</obj_property>
@@ -47,6 +48,18 @@
    <wvobject fp_name="/test_delay_data/m_axis_tready" type="logic">
       <obj_property name="ElementShortName">m_axis_tready</obj_property>
       <obj_property name="ObjectShortName">m_axis_tready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_delay_data/s_axis_tvalid" type="logic">
+      <obj_property name="ElementShortName">s_axis_tvalid</obj_property>
+      <obj_property name="ObjectShortName">s_axis_tvalid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_delay_data/s_axis_tready" type="logic">
+      <obj_property name="ElementShortName">s_axis_tready</obj_property>
+      <obj_property name="ObjectShortName">s_axis_tready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_delay_data/m_axis_tvalid" type="logic">
+      <obj_property name="ElementShortName">m_axis_tvalid</obj_property>
+      <obj_property name="ObjectShortName">m_axis_tvalid</obj_property>
    </wvobject>
    <wvobject fp_name="/test_delay_data/DATA_IN" type="array">
       <obj_property name="ElementShortName">DATA_IN[15:0]</obj_property>
@@ -66,32 +79,20 @@
       <obj_property name="WaveformStyle">STYLE_ANALOG</obj_property>
       <obj_property name="CellHeight">100</obj_property>
    </wvobject>
-   <wvobject fp_name="/test_delay_data/s_axis_tvalid" type="logic">
-      <obj_property name="ElementShortName">s_axis_tvalid</obj_property>
-      <obj_property name="ObjectShortName">s_axis_tvalid</obj_property>
+   <wvobject fp_name="/test_delay_data/s_axis_tkeep" type="array">
+      <obj_property name="ElementShortName">s_axis_tkeep[1:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axis_tkeep[1:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/test_delay_data/m_axis_tvalid" type="logic">
-      <obj_property name="ElementShortName">m_axis_tvalid</obj_property>
-      <obj_property name="ObjectShortName">m_axis_tvalid</obj_property>
+   <wvobject fp_name="/test_delay_data/s_axis_tstrb" type="array">
+      <obj_property name="ElementShortName">s_axis_tstrb[1:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axis_tstrb[1:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/test_delay_data/s_axis_tready" type="logic">
-      <obj_property name="ElementShortName">s_axis_tready</obj_property>
-      <obj_property name="ObjectShortName">s_axis_tready</obj_property>
+   <wvobject fp_name="/test_delay_data/m_axis_tkeep" type="array">
+      <obj_property name="ElementShortName">m_axis_tkeep[1:0]</obj_property>
+      <obj_property name="ObjectShortName">m_axis_tkeep[1:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/test_delay_data/s_axis_tkeep" type="logic">
-      <obj_property name="ElementShortName">s_axis_tkeep</obj_property>
-      <obj_property name="ObjectShortName">s_axis_tkeep</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_delay_data/s_axis_tstrb" type="logic">
-      <obj_property name="ElementShortName">s_axis_tstrb</obj_property>
-      <obj_property name="ObjectShortName">s_axis_tstrb</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_delay_data/m_axis_tkeep" type="logic">
-      <obj_property name="ElementShortName">m_axis_tkeep</obj_property>
-      <obj_property name="ObjectShortName">m_axis_tkeep</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_delay_data/m_axis_tstrb" type="logic">
-      <obj_property name="ElementShortName">m_axis_tstrb</obj_property>
-      <obj_property name="ObjectShortName">m_axis_tstrb</obj_property>
+   <wvobject fp_name="/test_delay_data/m_axis_tstrb" type="array">
+      <obj_property name="ElementShortName">m_axis_tstrb[1:0]</obj_property>
+      <obj_property name="ObjectShortName">m_axis_tstrb[1:0]</obj_property>
    </wvobject>
 </wave_config>
