@@ -92,10 +92,30 @@ begin
 #260 s_axis_tvalid  = 1;
 #400 s_axis_tvalid  = 0;
 end
+
+/*
+begin 
+#30  m_axis_tready = 1; 
+#80 m_axis_tready = 0;
+#100 m_axis_tready = 1;
+#100 m_axis_tready = 0;
+#100 m_axis_tready = 1;
+#100 m_axis_tready = 0;
+
+
+#100 m_axis_tready  = 1;
+#200 m_axis_tready  = 0;
+
+#260 m_axis_tready  = 1;
+#400 m_axis_tready  = 0;
+end
+*/
+
 join
 //------------------------------------------------
 //--------------------------------------------------------------------
 //--------------------------------------------------------------------
+
 
 #80 s_axis_tkeep = 1;
 #80 s_axis_tstrb = 3;
