@@ -37,32 +37,37 @@ output wire [BUS_WIDTH_IN_BYTES-1:0]   m_axis_tkeep
   
 always @(posedge ACLK ) begin
 
-    m_axis_tvalid_int <= s_axis_tvalid;
+     if (~ARESETN) begin
+        counter           <= 0;
+        m_axis_tdata_int  <= 0;
+        m_axis_tkeep_int  <= 0;
+        m_axis_tstrb_int  <= 0;
+        m_axis_tvalid_int <= 0; 
+        s_axis_tready_int <= 0;
+     end
+     
     s_axis_tready_int <= m_axis_tready;
     
-    if (enable) 
+    if (enable && s_axis_tready && s_axis_tvalid) 
          counter <= counter + 1'b1;
          
-     if (s_axis_tready & s_axis_tvalid ) begin
+     if (s_axis_tready && s_axis_tvalid ) begin
          m_axis_tkeep_int <= s_axis_tkeep;
          m_axis_tstrb_int <= s_axis_tstrb;
-    end
-    if ( ~enable | ~ARESETN) begin
+     end
+     
+    if ( ~enable || ~ARESETN) begin
        counter            <= 0;
        m_axis_tvalid_int  <= 0;
     end
        
-     if (s_axis_tready & s_axis_tvalid & counter >= delay) 
+     if (s_axis_tready && s_axis_tvalid && counter >= delay) begin
+         m_axis_tvalid_int <= s_axis_tvalid;
          m_axis_tdata_int  <= s_axis_tdata;
-    
-     if (~ARESETN) begin
-       // counter           <= 0;
-        m_axis_tdata_int  <= 0;
-        m_axis_tkeep_int  <= 0;
-        m_axis_tstrb_int  <= 0;
-       //m_axis_tvalid_int <= 0; 
-        s_axis_tready_int <= 0;
-     end
+         counter <= counter;
+      end
+      else if(~s_axis_tvalid ) m_axis_tdata_int <= 0;
+      
 end
 
 assign m_axis_tdata  = m_axis_tdata_int;
