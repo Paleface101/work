@@ -37,7 +37,7 @@ output wire [BUS_WIDTH_IN_BYTES-1:0]   m_axis_tkeep
   
 always @(posedge ACLK ) begin
 
-     if (~ARESETN) begin
+     if (!ARESETN) begin
         m_axis_tdata_int  <= 0;
         m_axis_tkeep_int  <= 0;
         m_axis_tstrb_int  <= 0;
@@ -48,7 +48,7 @@ always @(posedge ACLK ) begin
      
     else begin 
         s_axis_tready_int <= m_axis_tready;
-       if ( ~enable) counter <= 0;
+       if ( !enable) counter <= 0;
           else if (enable && s_axis_tready && s_axis_tvalid) 
                    counter <= counter + 1'b1;
                 
@@ -58,7 +58,7 @@ always @(posedge ACLK ) begin
             m_axis_tdata_int  <= s_axis_tdata;
             counter           <= counter;
        end
-           else if(~s_axis_tvalid ) m_axis_tvalid_int <= 0;
+           else if(!s_axis_tvalid ) m_axis_tvalid_int <= 0;
             
       if (s_axis_tready && s_axis_tvalid ) begin
             m_axis_tkeep_int <= s_axis_tkeep;
