@@ -11,13 +11,13 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="688170000fs"></ZoomStartTime>
-      <ZoomEndTime time="1234670001fs"></ZoomEndTime>
-      <Cursor1Time time="809000000fs"></Cursor1Time>
+      <ZoomStartTime time="150833333fs"></ZoomStartTime>
+      <ZoomEndTime time="1169833334fs"></ZoomEndTime>
+      <Cursor1Time time="1000000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="81"></NameColumnWidth>
-      <ValueColumnWidth column_width="87"></ValueColumnWidth>
+      <NameColumnWidth column_width="209"></NameColumnWidth>
+      <ValueColumnWidth column_width="136"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="14" />
    <wvobject fp_name="/test_delay_data/clk" type="logic">
@@ -55,10 +55,14 @@
    <wvobject fp_name="/test_delay_data/s_axis_tready" type="logic">
       <obj_property name="ElementShortName">s_axis_tready</obj_property>
       <obj_property name="ObjectShortName">s_axis_tready</obj_property>
+      <obj_property name="CustomSignalColor">#00FF7F</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/test_delay_data/m_axis_tvalid" type="logic">
       <obj_property name="ElementShortName">m_axis_tvalid</obj_property>
       <obj_property name="ObjectShortName">m_axis_tvalid</obj_property>
+      <obj_property name="CustomSignalColor">#E0FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/test_delay_data/DATA_IN" type="array">
       <obj_property name="ElementShortName">DATA_IN[15:0]</obj_property>
