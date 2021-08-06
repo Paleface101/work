@@ -86,7 +86,7 @@ begin
 
 // case (b) a valid signal disappears at the last counter clock cycle
 #50 s_axis_tvalid  = 1;
-#189 s_axis_tvalid  = 0;
+#140 s_axis_tvalid  = 0;
 
 // case (c) a valid signal disappears at the last counter clock cycle
 #260 s_axis_tvalid  = 1;
