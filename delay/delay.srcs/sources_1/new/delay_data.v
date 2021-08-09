@@ -1,10 +1,8 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 
-module delay_data #(parameter BUS_WIDTH_IN_BYTES = 2 //,//Data bus width in bytes.
-//w=1, 
-//t=n%w, 
-/*b=n-(t*w)*/)
+module delay_data #(parameter BUS_WIDTH_IN_BYTES = 2 //Data bus width in bytes.
+)
 (
 input wire        ACLK,
 input wire        ARESETN,
@@ -59,13 +57,14 @@ always @(posedge ACLK ) begin
             counter           <= counter;
        end
            else if(!s_axis_tvalid ) m_axis_tvalid_int <= 0;
-            
       if (s_axis_tready && s_axis_tvalid ) begin
             m_axis_tkeep_int <= s_axis_tkeep;
             m_axis_tstrb_int <= s_axis_tstrb;
-      end
+      end    
+      
     end   
 end 
+
 // assign outputs of internal reg
 assign m_axis_tdata  = m_axis_tdata_int;
 assign m_axis_tkeep  = m_axis_tkeep_int;

@@ -66,10 +66,12 @@ begin
 #320 enable = 0;
 
 // case (b) a valid signal disappears at the last counter clock cycle
+
 #50 enable         = 1;
 #150 enable         = 0;
 
 // case (c) a valid signal disappears at the last counter clock cycle
+
 #50 enable          = 1;
 #200 enable         = 0;
 end
@@ -77,6 +79,7 @@ end
 //changing the valid signal----------------------
 begin
 // case (a) changing the valid signal when the counter is running
+    @ (posedge clk) begin;
 #80  s_axis_tvalid = 1; 
 #20 s_axis_tvalid = 0;
 #20 s_axis_tvalid = 1;
@@ -84,13 +87,15 @@ begin
 #60 s_axis_tvalid = 1;
 #100 s_axis_tvalid = 0;
 
+
 // case (b) a valid signal disappears at the last counter clock cycle
 #50 s_axis_tvalid  = 1;
 #140 s_axis_tvalid  = 0;
 
 // case (c) a valid signal disappears at the last counter clock cycle
-#260 s_axis_tvalid  = 1;
+#340 s_axis_tvalid  = 1;
 #400 s_axis_tvalid  = 0;
+    end
 end
 
 /*
