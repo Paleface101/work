@@ -79,27 +79,42 @@ end
 //changing the valid signal----------------------
 begin
 // case (a) changing the valid signal when the counter is running
-    @ (posedge clk) begin;
-#80  s_axis_tvalid = 1; 
-#20 s_axis_tvalid = 0;
-#20 s_axis_tvalid = 1;
-#30 s_axis_tvalid = 0;
-#60 s_axis_tvalid = 1;
-#100 s_axis_tvalid = 0;
+   
+#80  @ (posedge clk)  s_axis_tvalid = 1; 
+#20  @ (posedge clk)  s_axis_tvalid = 0;
+#20  @ (posedge clk)  s_axis_tvalid = 1;
+    
+#30  @(posedge clk) s_axis_tvalid = 0;
+  
+#60  @(posedge clk) s_axis_tvalid = 1;
+#100 @(posedge clk) s_axis_tvalid = 0;
 
 
 // case (b) a valid signal disappears at the last counter clock cycle
-#50 s_axis_tvalid  = 1;
-#140 s_axis_tvalid  = 0;
+#50  @(posedge clk) s_axis_tvalid  = 1;
+#139 @(posedge clk) s_axis_tvalid  = 0;
 
 // case (c) a valid signal disappears at the last counter clock cycle
-#340 s_axis_tvalid  = 1;
-#400 s_axis_tvalid  = 0;
-    end
+#340 @(posedge clk) s_axis_tvalid  = 1;
+#400 @(posedge clk) s_axis_tvalid  = 0;
+  
 end
 
-/*
-begin 
+begin
+#80 @(posedge clk) s_axis_tkeep = 1;
+#80 @(posedge clk) s_axis_tstrb = 3;
+
+#10 @(posedge clk) s_axis_tkeep = 3;
+#10 @(posedge clk) s_axis_tstrb = 2;
+
+#10 @(posedge clk) s_axis_tkeep  = 0;
+#10 @(posedge clk) s_axis_tstrb = 0;
+
+#10 @(posedge clk) s_axis_tkeep  = 1;
+#10 @(posedge clk) s_axis_tstrb = 3;
+end
+
+/*begin 
 #30  m_axis_tready = 1; 
 #80 m_axis_tready = 0;
 #100 m_axis_tready = 1;
@@ -113,8 +128,16 @@ begin
 
 #260 m_axis_tready  = 1;
 #400 m_axis_tready  = 0;
+end*/
+
+begin
+repeat (100000) begin // 10 повторений
+      @ (posedge clk); // negedge clk
+      s_axis_tkeep  = $random;
+      s_axis_tstrb  = $random;
+       
+   end 
 end
-*/
 
 join
 //------------------------------------------------
@@ -122,19 +145,11 @@ join
 //--------------------------------------------------------------------
 
 
-#80 s_axis_tkeep = 1;
-#80 s_axis_tstrb = 3;
 
-#90 s_axis_tkeep = 3;
-#90 s_axis_tstrb = 2;
 
-#280 s_axis_tkeep  = 0;
-#290 s_axis_tstrb = 0;
+#700 @(posedge clk) m_axis_tready = 0;
 
-#700 m_axis_tready = 0;
 
-#320 s_axis_tkeep  = 1;
-#330 s_axis_tstrb = 3;
 
 end
 
@@ -148,6 +163,17 @@ always_ff @( posedge clk) begin
     else DATA_IN  <= 0;
 end
 
+/*always_ff @( posedge clk) begin
+    if (s_axis_tready & s_axis_tvalid)
+    s_axis_tkeep   <= s_axis_tkeep + 1; 
+    else s_axis_tkeep   <= 0;
+end
+
+always_ff @( posedge clk) begin
+    if (s_axis_tready & s_axis_tvalid)
+    s_axis_tstrb   <= s_axis_tstrb + 1; 
+    else s_axis_tstrb  <= 0;
+end*/
 
 
 delay_data DD (.ACLK(clk), .s_axis_tdata(DATA_IN),.m_axis_tdata(DATA_OUT),
