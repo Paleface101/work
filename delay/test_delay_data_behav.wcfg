@@ -11,9 +11,9 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="238170000fs"></ZoomStartTime>
-      <ZoomEndTime time="277970001fs"></ZoomEndTime>
-      <Cursor1Time time="289260000fs"></Cursor1Time>
+      <ZoomStartTime time="36000000fs"></ZoomStartTime>
+      <ZoomEndTime time="1193000001fs"></ZoomEndTime>
+      <Cursor1Time time="1000000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="174"></NameColumnWidth>
@@ -103,9 +103,13 @@
    <wvobject fp_name="/test_delay_data/m_axis_tkeep" type="array">
       <obj_property name="ElementShortName">m_axis_tkeep[1:0]</obj_property>
       <obj_property name="ObjectShortName">m_axis_tkeep[1:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/test_delay_data/m_axis_tstrb" type="array">
       <obj_property name="ElementShortName">m_axis_tstrb[1:0]</obj_property>
       <obj_property name="ObjectShortName">m_axis_tstrb[1:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
 </wave_config>

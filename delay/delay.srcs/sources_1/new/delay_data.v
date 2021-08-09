@@ -39,20 +39,7 @@ output wire [BUS_WIDTH_IN_BYTES-1:0]   m_axis_tkeep
   reg       [BUS_WIDTH_IN_BYTES-1:0]   m_axis_tstrb_delay  = 0;
   reg                                  m_axis_tvalid_delay = 0; 
  
-  
-  
-/*always @( posedge ACLK ) begin
-    if ( !ARESETN ) begin
-        m_axis_tkeep_int  <= 0;
-        m_axis_tstrb_int  <= 0;
-     end else begin
-   if ( s_axis_tready && s_axis_tvalid ) begin
-       m_axis_tkeep_int <= s_axis_tkeep;
-       m_axis_tstrb_int <= s_axis_tstrb;
-   end 
-   end
-end *//// */
-
+ 
 always @( posedge ACLK ) begin
     if ( !ARESETN ) begin
         s_axis_tready_int   <= 0;
@@ -60,54 +47,34 @@ always @( posedge ACLK ) begin
         m_axis_tvalid_delay <= 0;
         m_axis_tstrb_delay  <= 0;
         m_axis_tkeep_delay  <= 0;
-   //   m_axis_tdata_int    <= 0;
-    //  m_axis_tkeep_int    <= 0;
-   //   m_axis_tstrb_int    <= 0
-  //    m_axis_tvalid_int   <= 0;
-     end else begin //------------------------------------------------------------------
+    end else begin //-------------------------------------------
         s_axis_tready_int   <= m_axis_tready;
+        
+        // counter 
         if      ( !enable )       
                 counter <= 1'b0;
         else if ( enable && s_axis_tready && s_axis_tvalid ) 
                 counter <= counter + 1'b1;
                 
+        //  data transfer in delay reg from input
         if ( s_axis_tready && s_axis_tvalid && counter >= delay ) begin
             m_axis_tvalid_delay <= s_axis_tvalid;
             m_axis_tkeep_delay  <= s_axis_tkeep;
             m_axis_tstrb_delay  <= s_axis_tstrb;
             counter             <= counter;
-       // m_axis_tdata_int    <= s_axis_tdata;
-       // m_axis_tdata_delay  <= s_axis_tdata;
-       // m_axis_tdata_int    <= m_axis_tdata_delay;
-       // m_axis_tvalid_int   <= s_axis_tvalid;
         end else if( !s_axis_tvalid ) 
-                    m_axis_tvalid_delay <= 0;
-         // m_axis_tvalid_int   <= 0;
-            
-           
-       /*if ( s_axis_tready && s_axis_tvalid ) begin
-       m_axis_tkeep_delay <= s_axis_tkeep;
-       m_axis_tstrb_delay <= s_axis_tstrb;
-       m_axis_tkeep_int   <= m_axis_tkeep_delay;
-       m_axis_tstrb_int   <= m_axis_tstrb_delay;
-       end*/  
-     /*  if (s_axis_tready && m_axis_tvalid_delay && counter >= delay)  begin
-             m_axis_tvalid_int <= m_axis_tvalid_delay;
-             m_axis_tdata_int  <= s_axis_tdata;
-             m_axis_tkeep_int  <= m_axis_tkeep_delay;
-             m_axis_tstrb_int  <= m_axis_tstrb_delay;
-        end else 
-             m_axis_tvalid_int <= 0; */
-   end // ------------------------------------------------------------------------------------- 
+            m_axis_tvalid_delay <= 0;
+   end // -------------------------------------------------------
 end 
 
+// data transfer from delay register to output
 always @(posedge ACLK) begin
     if ( !ARESETN ) begin
         m_axis_tdata_int    <= 0;//
         m_axis_tkeep_int    <= 0;//
         m_axis_tstrb_int    <= 0;//
         m_axis_tvalid_int   <= 0;//  
-    end else begin
+    end else begin //---------------------------
         if (s_axis_tready && m_axis_tvalid_delay && counter >= delay)  begin
              m_axis_tvalid_int <= m_axis_tvalid_delay;
              m_axis_tdata_int  <= s_axis_tdata;
@@ -115,9 +82,8 @@ always @(posedge ACLK) begin
              m_axis_tstrb_int  <= m_axis_tstrb_delay;
         end else 
              m_axis_tvalid_int <= 0; 
-    end
+    end//--------------------------------------
 end
-
 
 // assign outputs of internal reg
 assign m_axis_tdata  = m_axis_tdata_int;
