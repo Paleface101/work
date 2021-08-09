@@ -55,61 +55,68 @@ end *//// */
 
 always @( posedge ACLK ) begin
     if ( !ARESETN ) begin
-        m_axis_tdata_int    <= 0;
-        m_axis_tkeep_int    <= 0;
-        m_axis_tstrb_int    <= 0;
         s_axis_tready_int   <= 0;
-        m_axis_tvalid_int   <= 0;
         counter             <= 0;
         m_axis_tvalid_delay <= 0;
         m_axis_tstrb_delay  <= 0;
         m_axis_tkeep_delay  <= 0;
-     end else begin
-        s_axis_tready_int <= m_axis_tready;
-     if      ( !enable )       
+   //   m_axis_tdata_int    <= 0;
+    //  m_axis_tkeep_int    <= 0;
+   //   m_axis_tstrb_int    <= 0
+  //    m_axis_tvalid_int   <= 0;
+     end else begin //------------------------------------------------------------------
+        s_axis_tready_int   <= m_axis_tready;
+        if      ( !enable )       
                 counter <= 1'b0;
-     else if ( enable && s_axis_tready && s_axis_tvalid ) 
+        else if ( enable && s_axis_tready && s_axis_tvalid ) 
                 counter <= counter + 1'b1;
                 
-     if ( s_axis_tready && s_axis_tvalid && counter >= delay ) begin
-          //m_axis_tvalid_int <= s_axis_tvalid;
+        if ( s_axis_tready && s_axis_tvalid && counter >= delay ) begin
             m_axis_tvalid_delay <= s_axis_tvalid;
             m_axis_tkeep_delay  <= s_axis_tkeep;
             m_axis_tstrb_delay  <= s_axis_tstrb;
-         // m_axis_tdata_int  <= s_axis_tdata;
-        //  m_axis_tdata_delay <= s_axis_tdata;
-          //m_axis_tdata_int <= m_axis_tdata_delay;
             counter             <= counter;
-     end
-           else if( !s_axis_tvalid ) 
+       // m_axis_tdata_int    <= s_axis_tdata;
+       // m_axis_tdata_delay  <= s_axis_tdata;
+       // m_axis_tdata_int    <= m_axis_tdata_delay;
+       // m_axis_tvalid_int   <= s_axis_tvalid;
+        end else if( !s_axis_tvalid ) 
+                    m_axis_tvalid_delay <= 0;
          // m_axis_tvalid_int   <= 0;
-            m_axis_tvalid_delay <= 0;
+            
            
-     /*  if ( s_axis_tready && s_axis_tvalid ) begin
+       /*if ( s_axis_tready && s_axis_tvalid ) begin
        m_axis_tkeep_delay <= s_axis_tkeep;
        m_axis_tstrb_delay <= s_axis_tstrb;
        m_axis_tkeep_int   <= m_axis_tkeep_delay;
        m_axis_tstrb_int   <= m_axis_tstrb_delay;
-       end  */  
-       if (s_axis_tready && m_axis_tvalid_delay && counter >= delay)  begin
+       end*/  
+     /*  if (s_axis_tready && m_axis_tvalid_delay && counter >= delay)  begin
              m_axis_tvalid_int <= m_axis_tvalid_delay;
              m_axis_tdata_int  <= s_axis_tdata;
              m_axis_tkeep_int  <= m_axis_tkeep_delay;
              m_axis_tstrb_int  <= m_axis_tstrb_delay;
         end else 
-             m_axis_tvalid_int  <= 0; 
-    end   
+             m_axis_tvalid_int <= 0; */
+   end // ------------------------------------------------------------------------------------- 
 end 
 
-/*always @(posedge ACLK) begin
-    if (s_axis_tready && m_axis_tvalid_delay && counter >= delay)  begin
-        m_axis_tvalid_int  <= m_axis_tvalid_delay ;
-        m_axis_tdata_int   <= s_axis_tdata;
-        m_axis_tkeep_int   <= m_axis_tkeep_delay;
-        m_axis_tstrb_int   <= m_axis_tstrb_delay;
-    end else m_axis_tvalid_int <= 0;
-    
-end*/
+always @(posedge ACLK) begin
+    if ( !ARESETN ) begin
+        m_axis_tdata_int    <= 0;//
+        m_axis_tkeep_int    <= 0;//
+        m_axis_tstrb_int    <= 0;//
+        m_axis_tvalid_int   <= 0;//  
+    end else begin
+        if (s_axis_tready && m_axis_tvalid_delay && counter >= delay)  begin
+             m_axis_tvalid_int <= m_axis_tvalid_delay;
+             m_axis_tdata_int  <= s_axis_tdata;
+             m_axis_tkeep_int  <= m_axis_tkeep_delay;
+             m_axis_tstrb_int  <= m_axis_tstrb_delay;
+        end else 
+             m_axis_tvalid_int <= 0; 
+    end
+end
 
 
 // assign outputs of internal reg
